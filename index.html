@@ -18,6 +18,11 @@
             margin-top: 10px;
             font-size: 2em;
         }
+        #beerImage {
+            margin-top: 20px;
+            display: none; /* Initially hide the image */
+            width: 400px;  /* Set the width of the image */
+        }
     </style>
 </head>
 <body>
@@ -29,6 +34,7 @@
 
     <div id="message"></div>
     <div id="dots"></div>
+    <img id="beerImage" src="fighterbeer.webp" alt="Beer with Fighter Jets and Explosions">
 
     <script>
         function theBeers() {
@@ -40,6 +46,7 @@
 
             if (beers >= 1000000) {
                 message.innerHTML = 'Oath cunt';
+                beerImage.style.display = 'block';  // Show the image if beers >= 1000000
             else if (!Number.isInteger(beers)) {
                 message.innerHTML = 'Sorry brah, you cant drink a fraction worth of beer.<br> Try again muscles'
             }
