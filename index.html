@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Beers Program</title>
+    <title>Dr. Beers' office</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <h1>The Beers Program</h1>
+    <h1>Dr. Beers asks: </h1>
     <p>Hey mate, how many beers are you drinking this weekend?</p>
     
     <input type="number" id="beerCount" placeholder="Enter number of beers">
@@ -35,10 +35,14 @@
             var beers = document.getElementById('beerCount').value;
             var message = document.getElementById('message');
             var dots = document.getElementById('dots');
+            var beerImage = document.getElementById('beerImage');
             dots.innerHTML = '';  // Clear previous dots
 
             if (beers >= 1000000) {
                 message.innerHTML = 'Oath cunt';
+            else if (!Number.isInteger(beers)) {
+                message.innerHTML = 'Sorry brah, you cant drink a fraction worth of beer.<br> Try again muscles'
+            }
             } else {
                 message.innerHTML = 'Sorry brah, not enough.<br>You must drink a million beers. Try again yeah?';
                 
