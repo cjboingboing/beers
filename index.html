@@ -38,7 +38,7 @@
 
     <script>
         function theBeers() {
-            var beers = document.getElementById('beerCount').value;
+            var beers = parseInt(document.getElementById('beerCount').value); 
             var message = document.getElementById('message');
             var dots = document.getElementById('dots');
             var beerImage = document.getElementById('beerImage');
@@ -47,9 +47,9 @@
             if (beers >= 1000000) {
                 message.innerHTML = 'Oath cunt';
                 beerImage.style.display = 'block';  // Show the image if beers >= 1000000
-            else if (!Number.isInteger(beers)) {
-                message.innerHTML = 'Sorry brah, you cant drink a fraction worth of beer.<br> Try again muscles'
             }
+            else if (isNaN(beers) || beers % 1 !== 0) {  // Check if beers is not an integer
+                message.innerHTML = 'Sorry brah, you can\'t drink a fraction worth of beer.<br> Try again muscles';
             } else {
                 message.innerHTML = 'Sorry brah, not enough.<br>You must drink a million beers. Try again yeah?';
                 
