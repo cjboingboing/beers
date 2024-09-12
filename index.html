@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Beers Program</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        #message {
+            margin-top: 20px;
+        }
+        #dots {
+            margin-top: 10px;
+            font-size: 2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>The Beers Program</h1>
+    <p>Hey mate, how many beers are you drinking this weekend?</p>
+    
+    <input type="number" id="beerCount" placeholder="Enter number of beers">
+    <button onclick="theBeers()">Submit</button>
+
+    <div id="message"></div>
+    <div id="dots"></div>
+
+    <script>
+        function theBeers() {
+            var beers = document.getElementById('beerCount').value;
+            var message = document.getElementById('message');
+            var dots = document.getElementById('dots');
+            dots.innerHTML = '';  // Clear previous dots
+
+            if (beers > 1000000) {
+                message.innerHTML = 'Oath cunt';
+            } else {
+                message.innerHTML = 'Sorry brah, not enough.<br>You must drink a million beers. Try again yeah?';
+                
+                // Create dots like the C version
+                var dotCount = 0;
+                var interval = setInterval(function() {
+                    if (dotCount < 3) {
+                        dots.innerHTML += '.<br>';
+                        dotCount++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 500);  // Show dots one by one every 500ms
+                
+                // Ask for beers again after showing dots
+                setTimeout(function() {
+                    message.innerHTML = 'Hey mate, how many beers are you drinking this weekend?';
+                }, 2000);  // Delay for 2 seconds before asking again
+            }
+        }
+    </script>
+</body>
+</html>
