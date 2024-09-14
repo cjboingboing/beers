@@ -16,56 +16,115 @@
             position: relative;
             color: #333;
         }
+        #message {
+            margin-top: 20px;
+        }
+        #dots {
+            margin-top: 10px;
+            font-size: 2em;
+        }
+        #beerImage {
+            margin-top: 20px;
+            width: 400px;
+            display: none;  /* Initially hide the image */
+        }
+        #commitments {
+            margin-top: 30px;
+            border-top: 2px solid #333;
+            padding-top: 20px;
+        }
+        .commitment {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Dr. Beers asks:</h1>
     <p>Hey mate, what's your name and how many beers are you drinking this weekend?</p>
-
+    
     <input type="text" id="userName" placeholder="Enter your name"><br><br>
     <input type="number" id="beerCount" placeholder="Enter number of beers"><br><br>
     <button onclick="theBeers()">Submit</button>
 
     <div id="message"></div>
+    <div id="dots"></div>
     <img id="beerImage" src="" alt="Beer image">
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js"></script>
+    <!-- Section to display the beer commitments -->
+    <div id="commitments">
+        <h2>Beer Commitments:</h2>
+        <div id="commitmentList"></div> <!-- Dynamic list of commitments -->
+    </div>
 
     <script>
-        // Your Firebase configuration
-        const firebaseConfig = {
-          apiKey: process.env.FIREBASE_API_KEY,  // Store the key in an environment variable
-          authDomain: "dr-beers.firebaseapp.com",
-          projectId: "dr-beers",
-          storageBucket: "dr-beers.appspot.com",
-          messagingSenderId: "344338095845",
-          appId: "1:344338095845:web:d6cfac5886fbc2d3e2be0c",
-          measurementId: "G-XSS3FW5G3W"
-        };
+        const swearWords = ["swear1", "swear2", "swear3"]; // Example words
 
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.getAnalytics(app);
-
-        // Example function to handle form submissions
+        // Function to handle form submission and show appropriate beer image
         function theBeers() {
-            const name = document.getElementById('userName').value || 'Anonymous';
-            const beers = parseInt(document.getElementById('beerCount').value);
-            const message = document.getElementById('message');
-            message.innerHTML = `Thank you, ${name}, for committing to drink ${beers} beers.`;
+            var name = document.getElementById('userName').value || 'Anonymous';
+            var beers = parseInt(document.getElementById('beerCount').value);
+            var message = document.getElementById('message');
+            var dots = document.getElementById('dots');
+            var beerImage = document.getElementById('beerImage');
+            dots.innerHTML = ''; 
 
-            // Example Firebase Database interaction can go here
-            const db = firebase.database();
-            const ref = db.ref('commitments');
-            ref.push({
-              name: name,
-              beers: beers,
-              date: new Date().toLocaleString()
-            });
+            // Check for inappropriate usernames
+            if (containsSwearWord(name)) {
+                message.innerHTML = 'Inappropriate username. Please enter a different name.';
+                return;
+            }
+
+            // Special name cases
+            if (name.toLowerCase() === 'jonah') {
+                message.innerHTML = 'Happy Birthday Jonah!';
+            } else if (name.toLowerCase() === 'orlando') {
+                message.innerHTML = 'Nice try, Gay Cow!';
+                name = 'Gay Cow';  // Change the name to "Gay Cow"
+            } else if (name.toLowerCase() === 'oli' || name.toLowerCase() === 'oliver') {
+                message.innerHTML = 'Nice try, Squid';
+                name = 'Squid';  // Change the name to "Squid"
+            }
+
+            // Display the number of beers message
+            var currentDateTime = new Date();
+            var formattedDateTime = currentDateTime.toLocaleString();
+            if (isNaN(beers) || beers <= 0 || beers % 1 !== 0) {
+                message.innerHTML = 'Sorry ' + name + ', you can\'t drink a fraction or invalid number of beers.<br> Try again muscles';
+                return;
+            }
+
+            let customMessage = '';
+            if (beers < 100) {
+                customMessage = `Dear me! ${name} isn't even trying! ${formattedDateTime}`;
+            } else if (beers >= 100 && beers < 900000) {
+                customMessage = `${name} is on the right track, they need to drink a few more! ${formattedDateTime}`;
+            } else if (beers >= 900000 && beers < 1000000) {
+                customMessage = `${name} is so so close, they are going to drink ${beers} beers, only ${1000000 - beers} to go! ${formattedDateTime}`;
+            } else {
+                customMessage = `Oath cunt, ${name}! You're ready for a million beers! ${formattedDateTime}`;
+            }
+
+            // Display the message
+            message.innerHTML = customMessage;
+
+            // Show the appropriate beer image
+            if (beers >= 1000000) {
+                beerImage.src = 'happybeer.webp';  // Path to happy beer image
+            } else {
+                beerImage.src = 'sadbeer.webp';  // Path to sad beer image
+            }
+            beerImage.style.display = 'block';  // Show the beer image
+        }
+
+        // Function to check for swear words in the username
+        function containsSwearWord(name) {
+            var lowerCaseName = name.toLowerCase();
+            for (let i = 0; i < swearWords.length; i++) {
+                if (lowerCaseName.includes(swearWords[i])) {
+                    return true;
+                }
+            }
+            return false;
         }
     </script>
 </body>
