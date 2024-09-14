@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
-            background-image: url('beerground.jpeg');  /* Path to the beer background image */
+            background-image: url('beerground.jpg');  /* Path to the beer background image */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -69,7 +69,6 @@
     </div>
 
     <script>
-        // JavaScript logic remains the same as previous versions
         const swearWords = ["swear1", "swear2", "swear3"]; // Example words
 
         let commitments = [];
@@ -108,7 +107,7 @@
                 name = 'Gay Cow';  // Change the name to "Gay Cow"
             } else if (name.toLowerCase() === 'oli' || name.toLowerCase() === 'oliver') {
                 message.innerHTML = 'Nice try, Squid';
-                name = 'Squid';
+                name = 'Squid';  // Change the name to "Squid"
             }
 
             var currentDateTime = new Date();
@@ -139,12 +138,13 @@
 
             displayCommitments();
 
+            // Restore logic to show sad or happy beer based on number of beers
             if (beers >= 1000000) {
-                beerImage.src = 'happybeer.webp';
+                beerImage.src = 'happybeer.webp';  // Path to happy beer image
             } else {
-                beerImage.src = 'sadbeer.webp';
+                beerImage.src = 'sadbeer.webp';  // Path to sad beer image
             }
-            beerImage.style.display = 'block';
+            beerImage.style.display = 'block';  // Show the beer image
         }
 
         function containsSwearWord(name) {
