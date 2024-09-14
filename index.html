@@ -52,25 +52,8 @@
     </div>
 
     <script>
-        // ArrayList equivalent in JavaScript to store swear words
-        const swearWords = [];
-        // The swears list you provided
-        const swears = [
-            "arsehead", "arsehole", "ass", "ass hole", "asshole", "Bastard", "bitch", "bloody", "bollocks",
-            "brotherfucker", "bugger", "bullshit", "Cunt", "child-fucker", "Christ on a bike", "Christ on a cracker",
-            "cocksucker", "crap", "cunt", "dammit", "damn", "dickhead", "dickhole", "dumb ass", "dumb-ass",
-            "dumbass", "dyke", "fuck", "fucker", "fucking", "God dammit", "god damn", "God damned",
-            "goddamnit", "godsdamn", "Hell", "holy shit", "horseshit", "in shit", "IQ", "jackass",
-            "jackarse", "jesus christ", "Jesus fuck", "Jesus H. Christ", "Jesus Harold Christ",
-            "Jesus, Mary and Joseph", "Jesus wept", "kike", "motherfucker", "mother-fucker",
-            "nigra", "pigfucker", "piss", "prick", "pussy", "sibling fucker", "sisterfuck", "sisterfucker",
-            "slut", "son of a bitch", "son of a whore", "spastic", "sweet Jesus", "twat", "Wanker"
-        ];
-
-        // Add each swear word from the array into the swearWords list
-        swears.forEach(swear => {
-            swearWords.push(swear);
-        });
+        // Array of inappropriate words (from previous version)
+        const swearWords = ["swear1", "swear2", "swear3"]; // Example words
 
         // Array to store all commitments
         let commitments = [];
@@ -93,38 +76,48 @@
             var currentDateTime = new Date();
             var formattedDateTime = currentDateTime.toLocaleString(); // Format as local date and time
 
-            if (isNaN(beers) || beers % 1 !== 0) {  // Check if beers is not an integer
-                message.innerHTML = 'Sorry ' + name + ', you can\'t drink a fraction worth of beer.<br> Try again muscles';
+            if (isNaN(beers) || beers <= 0 || beers % 1 !== 0) {  // Check if beers is not an integer or valid
+                message.innerHTML = 'Sorry ' + name + ', you can\'t drink a fraction or invalid number of beers.<br> Try again muscles';
                 return;
+            }
+
+            // Customized message logic based on the number of beers
+            let customMessage = '';
+            if (beers < 100) {
+                customMessage = `Dear me! ${name} isn't even trying! ({beers} drank) ${formattedDateTime}`;
+            } else if (beers >= 100 && beers < 900000) {
+                customMessage = `${name} is on the right track, they need to drink a few more! ({beers} drank)  ${formattedDateTime}`;
+            } else if (beers >= 900000 && beers < 1000000) {
+                customMessage = `${name} is so so close, they are going to drink ${beers} beers, only ${1000000 - beers} to go! ${formattedDateTime}`;
+            } else {
+                customMessage = `Oath cunt, ${name}! You're ready for a million beers! ${formattedDateTime}`;
             }
 
             // Add commitment to the array
             commitments.push({
                 name: name,
                 beers: beers,
-                date: formattedDateTime
+                date: formattedDateTime,
+                message: customMessage  // Store the custom message
             });
 
             // Display the updated commitment list
             displayCommitments();
 
-            // Show personalized message based on the beer count
+            // Show the appropriate beer image
             if (beers >= 1000000) {
-                message.innerHTML = 'Oath cunt, ' + name + '! You\'re ready for a million beers!';
-                beerImage.src = 'happybeer.webp';  // You can replace this with the path to the happy beer image
-                beerImage.style.display = 'block';  // Show the image if beers >= 1000000
+                beerImage.src = 'happybeer.webp';  // Path to happy beer image
             } else {
-                message.innerHTML = 'Sorry ' + name + ', not enough.<br>You must drink a million beers. Try again yeah?';
-                beerImage.src = 'sadbeer.webp';  // Set the sad beer image when beers < 1,000,000
-                beerImage.style.display = 'block';  // Show the sad beer image
+                beerImage.src = 'sadbeer.webp';  // Path to sad beer image
             }
+            beerImage.style.display = 'block';  // Show the beer image
         }
 
         // Function to check if the name contains any swear words
         function containsSwearWord(name) {
             var lowerCaseName = name.toLowerCase(); // Make the name lowercase for case-insensitive comparison
             for (let i = 0; i < swearWords.length; i++) {
-                if (lowerCaseName.includes(swearWords[i].toLowerCase())) {
+                if (lowerCaseName.includes(swearWords[i])) {
                     return true;
                 }
             }
@@ -140,7 +133,8 @@
                 // Create a div for each commitment
                 var commitmentDiv = document.createElement('div');
                 commitmentDiv.className = 'commitment';
-                commitmentDiv.innerHTML = `${commitment.name} committed to drink ${commitment.beers} beers on ${commitment.date}`;
+                // Use the custom message from the commitment
+                commitmentDiv.innerHTML = commitment.message;
                 commitmentList.appendChild(commitmentDiv);
             });
         }
