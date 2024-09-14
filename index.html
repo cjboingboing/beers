@@ -45,13 +45,17 @@
             dots.innerHTML = '';  // Clear previous dots
 
             if (beers >= 1000000) {
-                message.innerHTML = 'Oath cunt';
+                message.innerHTML = 'Oath mate, you\'re a fkn legend bro';
                 beerImage.style.display = 'block';  // Show the image if beers >= 1000000
             }
             else if (isNaN(beers) || beers % 1 !== 0) {  // Check if beers is not an integer
                 message.innerHTML = 'Sorry brah, you can\'t drink a fraction worth of beer.<br> Try again muscles';
             } else {
                 message.innerHTML = 'Sorry brah, not enough.<br>You must drink a million beers. Try again yeah?';
+
+                // Set the sad beer image when beers < 1,000,000
+                beerImage.src = 'sadbeer.webp';  // This is the new sad beer image
+                beerImage.style.display = 'block';  // Show the sad beer image
                 
                 // Create dots like the C version
                 var dotCount = 0;
