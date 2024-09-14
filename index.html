@@ -38,7 +38,7 @@
     <script>
         // Your Firebase configuration
         const firebaseConfig = {
-          apiKey: "AIzaSyCdVPXDosO_H-GCv3L2L_lggpHM0IzPCQ4",
+          apiKey: process.env.FIREBASE_API_KEY,  // Store the key in an environment variable
           authDomain: "dr-beers.firebaseapp.com",
           projectId: "dr-beers",
           storageBucket: "dr-beers.appspot.com",
