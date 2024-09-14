@@ -8,9 +8,26 @@
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
-            background-color: #f4f4f4;
+            background-image: url('beerground.jpg');  /* Path to the beer background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Makes sure the background stays in place when scrolling */
+            position: relative;
             color: #333;
         }
+        /* Adding an opaque layer over the background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);  /* Add opacity to the background */
+            z-index: -1;  /* Keep it behind the content */
+        }
+
         #message {
             margin-top: 20px;
         }
@@ -52,70 +69,75 @@
     </div>
 
     <script>
-        // Array of inappropriate words (from previous version)
+        // JavaScript logic remains the same as previous versions
         const swearWords = ["swear1", "swear2", "swear3"]; // Example words
 
-        // Array to store all commitments
         let commitments = [];
 
+        // Add event listener for "Enter" key on inputs
+        document.getElementById('userName').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                theBeers();  // Call the function when Enter is pressed
+            }
+        });
+
+        document.getElementById('beerCount').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                theBeers();  // Call the function when Enter is pressed
+            }
+        });
+
         function theBeers() {
-            var name = document.getElementById('userName').value || 'Anonymous';  // Default to "Anonymous" if no name
-            var beers = parseInt(document.getElementById('beerCount').value); 
+            var name = document.getElementById('userName').value || 'Anonymous';
+            var beers = parseInt(document.getElementById('beerCount').value);
             var message = document.getElementById('message');
             var dots = document.getElementById('dots');
             var beerImage = document.getElementById('beerImage');
-            dots.innerHTML = '';  // Clear previous dots
+            dots.innerHTML = ''; 
 
-            // Check if the name contains inappropriate language
             if (containsSwearWord(name)) {
                 message.innerHTML = 'Inappropriate username. Please enter a different name.';
-                return; // Stop the function if the name is inappropriate
+                return;
             }
 
-            // Get the current date and time
             var currentDateTime = new Date();
-            var formattedDateTime = currentDateTime.toLocaleString(); // Format as local date and time
+            var formattedDateTime = currentDateTime.toLocaleString();
 
-            if (isNaN(beers) || beers <= 0 || beers % 1 !== 0) {  // Check if beers is not an integer or valid
+            if (isNaN(beers) || beers <= 0 || beers % 1 !== 0) {
                 message.innerHTML = 'Sorry ' + name + ', you can\'t drink a fraction or invalid number of beers.<br> Try again muscles';
                 return;
             }
 
-            // Customized message logic based on the number of beers
             let customMessage = '';
             if (beers < 100) {
-                customMessage = `Dear me! ${name} isn't even trying! ({beers} drank) ${formattedDateTime}`;
+                customMessage = `Dear me! ${name} isn't even trying! ${formattedDateTime}`;
             } else if (beers >= 100 && beers < 900000) {
-                customMessage = `${name} is on the right track, they need to drink a few more! ({beers} drank)  ${formattedDateTime}`;
+                customMessage = `${name} is on the right track, they need to drink a few more! ${formattedDateTime}`;
             } else if (beers >= 900000 && beers < 1000000) {
                 customMessage = `${name} is so so close, they are going to drink ${beers} beers, only ${1000000 - beers} to go! ${formattedDateTime}`;
             } else {
                 customMessage = `Oath cunt, ${name}! You're ready for a million beers! ${formattedDateTime}`;
             }
 
-            // Add commitment to the array
             commitments.push({
                 name: name,
                 beers: beers,
                 date: formattedDateTime,
-                message: customMessage  // Store the custom message
+                message: customMessage
             });
 
-            // Display the updated commitment list
             displayCommitments();
 
-            // Show the appropriate beer image
             if (beers >= 1000000) {
-                beerImage.src = 'happybeer.webp';  // Path to happy beer image
+                beerImage.src = 'happybeer.webp';
             } else {
-                beerImage.src = 'sadbeer.webp';  // Path to sad beer image
+                beerImage.src = 'sadbeer.webp';
             }
-            beerImage.style.display = 'block';  // Show the beer image
+            beerImage.style.display = 'block';
         }
 
-        // Function to check if the name contains any swear words
         function containsSwearWord(name) {
-            var lowerCaseName = name.toLowerCase(); // Make the name lowercase for case-insensitive comparison
+            var lowerCaseName = name.toLowerCase();
             for (let i = 0; i < swearWords.length; i++) {
                 if (lowerCaseName.includes(swearWords[i])) {
                     return true;
@@ -124,16 +146,13 @@
             return false;
         }
 
-        // Function to display the commitments on the website
         function displayCommitments() {
             var commitmentList = document.getElementById('commitmentList');
-            commitmentList.innerHTML = '';  // Clear the previous list
+            commitmentList.innerHTML = '';
 
             commitments.forEach(function(commitment) {
-                // Create a div for each commitment
                 var commitmentDiv = document.createElement('div');
                 commitmentDiv.className = 'commitment';
-                // Use the custom message from the commitment
                 commitmentDiv.innerHTML = commitment.message;
                 commitmentList.appendChild(commitmentDiv);
             });
