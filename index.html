@@ -8,7 +8,7 @@
         body {
             font-family: Arial, sans-serif;
             margin: 50px;
-            background-image: url('beerground.jpg');  /* Path to the beer background image */
+            background-image: url('beerground.jpeg');  /* Path to the beer background image */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -98,6 +98,17 @@
             if (containsSwearWord(name)) {
                 message.innerHTML = 'Inappropriate username. Please enter a different name.';
                 return;
+            }
+
+            // Special name cases
+            if (name.toLowerCase() === 'jonah') {
+                message.innerHTML = 'Happy Birthday Jonah!';
+            } else if (name.toLowerCase() === 'orlando') {
+                message.innerHTML = 'Nice try, Gay Cow!';
+                name = 'Gay Cow';  // Change the name to "Gay Cow"
+            } else if (name.toLowerCase() === 'oli' || name.toLowerCase() === 'oliver') {
+                message.innerHTML = 'Nice try, Squid';
+                name = 'Squid':
             }
 
             var currentDateTime = new Date();
